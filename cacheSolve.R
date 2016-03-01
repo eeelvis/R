@@ -1,12 +1,15 @@
+# cachesolve() search for inverse in the cache fisrt and if null, use solve() instead and cache the result
 cacheSolve <- function(x, ...) {
-        m <- x$getInv()
-        
-        if(!is.null(m)) {
-                message("... pegando dados!!!")
-                return(m)
+        inv <- x$getinverse() # get inverse from cache
+        # if a cache exists, just return the cache value without calculation
+        if(!is.null(inv)) {
+                message("getting cached data")
+                return(inv)
         }
+        # if no cache, use solve() to calculate the inverse
         data <- x$get()
-        m <- solve(data, ...)
-        x$setInv(m)
-        m  
+        inv <- solve(data, ...)
+        # set the inverse to cache
+        x$setinverse(inv)
+        inv
 }
